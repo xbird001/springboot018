@@ -1,0 +1,112 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.springboot</groupId>
+	<artifactId>springboot018</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>springboot018</name>
+	<url>http://maven.apache.org</url>
+
+	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
+		<project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- 按照此种方式，就不需要继承<parent> -->
+			<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies -->
+			<dependency>
+			    <groupId>org.springframework.boot</groupId>
+			    <artifactId>spring-boot-dependencies</artifactId>
+			    <version>2.0.2.RELEASE</version>
+			    <type>pom</type>
+			    <scope>import</scope>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>3.4.5</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ruijc</groupId>
+			<artifactId>spring-boot-starter-mybatis</artifactId>
+			<version>3.2.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-actuator</artifactId>
+		</dependency>
+		<!-- 提供数据源等等 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc6</artifactId>
+			<version>11.2.0.2.0</version>
+		</dependency>
+	</dependencies>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>appassembler-maven-plugin</artifactId>
+				<version>1.10</version>
+				<configuration>
+					<!-- 生成Linux、windows两种平台的执行文件 -->
+					<platforms>
+						<platform>windows</platform>
+						<platform>unix</platform>
+					</platforms>
+					<!-- 根目录 -->
+					<assembleDirectory>${project.build.directory}/product</assembleDirectory>
+					<!-- 打包的jar，以及maven依赖的jar放到这个目录里面 -->
+					<repositoryName>lib</repositoryName>
+					<!-- 可执行脚本的目录 -->
+					<bindFolder>bin</bindFolder>
+					<!-- 配置文件的目标目录 -->
+					<configurationDirectory>conf</configurationDirectory>
+					<!-- 拷贝配置文件到上面的目录中 -->
+					<copyConfigurationDirectory>true</copyConfigurationDirectory>
+					<!-- 从哪里拷贝配置文件(默认：src/main/config) -->
+					<configurationSourceDirectory>src/main/resources</configurationSourceDirectory>
+					<!-- lib目录中jar的存放规则，默认是${groupId}/${artifactId}的目录格式，flat表示直接把jar拷贝到lib目录下 -->
+					<repositoryLayout>flat</repositoryLayout>
+					<encoding>UTF-8</encoding>
+					<logsDirectory>logs</logsDirectory>
+					<tempDirectory>tmp</tempDirectory>
+					<programs>
+						<program>
+							<id>product</id>
+							<mainClass>com.springboot.springboot018.App</mainClass>
+							<jvmSettings>
+								<extraArguments>
+									<extraArgument>-server</extraArgument>
+									<extraArgument>-Xmx2G</extraArgument>
+									<extraArgument>-Xms2G</extraArgument>
+								</extraArguments>
+							</jvmSettings>
+						</program>
+					</programs>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
